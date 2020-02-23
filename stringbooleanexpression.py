@@ -87,7 +87,6 @@ class StringBooleanExpression:
         self._command_string, self._variables = self._parse_input(input_string, keyword_value_mapping)
 
         self._sorted_variables = sorted(self._variables)
-        print(self._command_string)
         self._command = self._set_up_function(self._command_string, self._sorted_variables)
 
     def check(self, input_dict: dict) -> bool:
@@ -96,25 +95,24 @@ class StringBooleanExpression:
         :param input_dict: The dictionary to contain the fields to look for
         :return: If the expression resolves successfully then True, otherwise False (Also False if missing expression fields)
         """
-        print(input_dict, self._sorted_variables)
         if all(variable in input_dict for variable in self._sorted_variables):
             return self._command(*[input_dict[item] for item in self._sorted_variables])
         else:
             return False
 
     @staticmethod
-    def _set_up_function(command_string: str, sorted_variables: list):
+    def _set_up_function(command_string: str, sorted_variables: list, variable_wrap: str = INTERNAL_VARIABLE_WRAP_CHAR):
         """
         This handles actually creating the command to run given a parsed command string and the sorted variables
         :param command_string: The parsed command string with the variables casted/replaced, and operators adjusted
         :param sorted_variables: The variables in their expected order
+        :param variable_wrap: The string to wrap the variable in
         :return: An evaluated expression that can be called given valid input
         """
 
-        input_sequence = ", ".join([INTERNAL_VARIABLE_WRAP_CHAR + item + INTERNAL_VARIABLE_WRAP_CHAR
+        input_sequence = ", ".join([variable_wrap + item + variable_wrap
                                     for item in sorted_variables])
         command = eval("lambda " + input_sequence + ": " + command_string, {})
-        print("lambda " + input_sequence + ": " + command_string)
         return command
 
     @staticmethod
@@ -158,7 +156,6 @@ class StringBooleanExpression:
         if len(parts) == 1:
             return input_string, variables
 
-        print(list(zip(range(0, len(parts) - 1), range(1, len(parts)))))
         for left_index, right_index in zip(range(0, len(parts) - 1), range(1, len(parts))):
             left_part = parts[left_index]
             right_part = parts[right_index]
@@ -199,6 +196,10 @@ class StringBooleanExpression:
 
             raw_left_value = left_part[-left_value_length:]
 
+            # Handle replacing special values
+            if raw_left_value in keyword_value_map:
+                left_is_variable = False
+                raw_left_value = keyword_value_map[raw_left_value]
 
             left_value = StringBooleanExpression._wrap_string(raw_left_value, INTERNAL_VARIABLE_WRAP_CHAR,
                                                               left_is_variable)
@@ -239,6 +240,12 @@ class StringBooleanExpression:
                 right_item_length += 1
                 right_value_stop += 1
             raw_right_value = right_part[right_value_start: right_value_stop]
+
+            # Handle replacing special values
+            if raw_right_value in keyword_value_map:
+                right_is_variable = False
+                raw_right_value = keyword_value_map[raw_right_value]
+
             right_value = StringBooleanExpression._wrap_string(raw_right_value,
                                                                INTERNAL_VARIABLE_WRAP_CHAR, right_is_variable)
             if right_is_variable:
@@ -260,7 +267,7 @@ class StringBooleanExpression:
                                                               not left_is_variable)
             right_value = StringBooleanExpression._wrap_string(right_value, "\"", right_variable_type == STRING[1]
                                                                and not right_is_variable)
-            print(left_value, right_value)
+
             parts[left_index] = f"{left_part[:-left_item_length]} {left_variable_type}({left_value})"
             parts[right_index] = f"{right_variable_type}({right_value}) {right_part[right_value_stop:]}"
 
