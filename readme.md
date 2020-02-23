@@ -29,5 +29,12 @@ Is resolved to handle check if employees name equals BoB or the salary is in the
 |&& 	|and  	|
 |( 	|open grouping  	|
 |) 	|close grouping  	|
+
+##Default reserved keyword map
+|Keyword  	|Resolved value  	|
+|---	|---	|
+|EMPTY_STRING  	|  	|
+
+
 #Disclaimer
 A best effort was done to restrict possible malicious input and if it is found then a ValueError is raised that needs to be caught.
