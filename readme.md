@@ -6,7 +6,7 @@
 Ever wanted a maybe safe way to resolve or take in a boolean expression from the user or a configuration.
 
 The input of:
-S$employee_name==BoB||(F$salary<<20.5||F&salary>=100)
+S$employee_name==BoB||(F$salary<<20.5||F$salary>=100)
 Is resolved to handle check if employees name equals BoB or the salary is in the range
 
 ## Comparison Map
