@@ -1,4 +1,6 @@
-![](https://github.com/courupteddata/StringBooleanExpression/.github/workflows/PythonTests.yml/badge.svg)
+<p align="center">
+  <a href="https://github.com/actions/toolkit"><img alt="GitHub Actions status" src="https://github.com/courupteddata/StringBooleanExpression/workflows/stringbooleanexpression-unit-tests/badge.svg"></a>
+</p>
 
 # String Boolean Expression
 Ever wanted a maybe safe way to resolve or take in a boolean expression from the user or a configuration.
