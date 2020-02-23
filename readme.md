@@ -1,4 +1,4 @@
-![](https://github.com/courupteddata/StringBooleanExpression/workflows/Greet%20Everyone/badge.svg?branch=feature-1)
+![](https://github.com/courupteddata/StringBooleanExpression/workflows/Greet%20Everyone/badge.svg)
 
 # String Boolean Expression
 Ever wanted a maybe safe way to resolve or take in a boolean expression from the user or a configuration.
