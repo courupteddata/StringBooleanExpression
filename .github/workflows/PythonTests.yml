@@ -1,4 +1,4 @@
-name: stringbooleanexpression-unit-tests
+name: StringBooleanExpression-unit-tests
 
 on: [push]
 

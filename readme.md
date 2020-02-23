@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://github.com/courupteddata/StringBooleanExpression"><img alt="GitHub Actions status" src="https://github.com/courupteddata/StringBooleanExpression/workflows/stringbooleanexpression-unit-tests/badge.svg"></a>
+  <a href="https://github.com/courupteddata/StringBooleanExpression"><img alt="StringBooleanExpression status" src="https://github.com/courupteddata/StringBooleanExpression/workflows/StringBooleanExpression-unit-tests/badge.svg"></a>
 </p>
 
 # String Boolean Expression
