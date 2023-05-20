@@ -1,7 +1,7 @@
 """
 MIT License
 
-Copyright (c) 2020 Nathan
+Copyright (c) 2019-2023 Nathan
 Original available at https://github.com/courupteddata/StringBooleanExpression
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -41,7 +41,7 @@ AND_OP = ("&&", " and ")
 OR_OP = ("||", " or ")
 NOT_OP = ("!!", " not ")
 
-# Grouping, can't be changed as this isn't replaced just used a a reference
+# Grouping, can't be changed as this isn't replaced just used a reference
 GROUP_OPEN = "("
 GROUP_CLOSE = ")"
 
@@ -78,7 +78,7 @@ class StringBooleanExpression:
         :param keyword_value_mapping: Special keywords that will be replaced with certain values this can be used to
                                       compare with an empty string, since this is provided by the developer it
                                       is not scrubbed against ILLEGAL_STRINGS.
-                                      By default there is EMPTY_STRING=""
+                                      By default, there is EMPTY_STRING=""
         """
         if keyword_value_mapping is None:
             keyword_value_mapping = {"EMPTY_STRING": ""}
@@ -93,7 +93,8 @@ class StringBooleanExpression:
         """
         If the input dictionary is missing the variables required to resolve the expression then False is returned
         :param input_dict: The dictionary to contain the fields to look for
-        :return: If the expression resolves successfully then True, otherwise False (Also False if missing expression fields)
+        :return: If the expression resolves successfully then True, otherwise False (Also False if missing expression
+        fields)
         """
         if all(variable in input_dict for variable in self._sorted_variables):
             return self._command(*[input_dict[item] for item in self._sorted_variables])
@@ -104,7 +105,7 @@ class StringBooleanExpression:
     def _set_up_function(command_string: str, sorted_variables: list, variable_wrap: str = INTERNAL_VARIABLE_WRAP_CHAR):
         """
         This handles actually creating the command to run given a parsed command string and the sorted variables
-        :param command_string: The parsed command string with the variables casted/replaced, and operators adjusted
+        :param command_string: The parsed command string with the variables cast/replaced, and operators adjusted
         :param sorted_variables: The variables in their expected order
         :param variable_wrap: The string to wrap the variable in
         :return: An evaluated expression that can be called given valid input

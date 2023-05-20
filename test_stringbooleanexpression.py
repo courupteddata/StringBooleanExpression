@@ -1,6 +1,7 @@
 from unittest import TestCase
 from stringbooleanexpression import StringBooleanExpression
 
+
 class TestStringBooleanExpression(TestCase):
 
     def test_check(self):
@@ -39,23 +40,25 @@ class TestStringBooleanExpression(TestCase):
         # Testing the check functionality
         simple_example = StringBooleanExpression("S$name==bob")
         self.assertFalse(simple_example.check({}), "An empty input should return false")
-        self.assertFalse(simple_example.check({"name":""}), "Does not match expression requirement")
-        self.assertTrue(simple_example.check({"name":"bob"}), "Matches simple condition")
+        self.assertFalse(simple_example.check({"name": ""}), "Does not match expression requirement")
+        self.assertTrue(simple_example.check({"name": "bob"}), "Matches simple condition")
 
         simple_reverse_example = StringBooleanExpression("bob==S$name")
         self.assertFalse(simple_reverse_example.check({}), "An empty input should return false")
-        self.assertFalse(simple_reverse_example.check({"name":""}), "Does not match expression requirement")
-        self.assertTrue(simple_reverse_example.check({"name":"bob"}), "Matches simple condition")
+        self.assertFalse(simple_reverse_example.check({"name": ""}), "Does not match expression requirement")
+        self.assertTrue(simple_reverse_example.check({"name": "bob"}), "Matches simple condition")
 
-
-        complex_example = StringBooleanExpression("something with a space==S$name||(S$name==bob||jim==S$name||(EMPTY_STRING==S$name&&S$name==EMPTY_STRING&&F$salary>=10.5))")
-        self.assertFalse(complex_example.check({"name":"", "salary":0}), "Checking complex false case")
-        self.assertTrue(complex_example.check({"name":"", "salary":10.5}), "Checking complex true case")
+        complex_example = StringBooleanExpression(
+            "something with a space==S$name||"
+            "(S$name==bob||jim==S$name||(EMPTY_STRING==S$name&&S$name==EMPTY_STRING&&F$salary>=10.5))")
+        self.assertFalse(complex_example.check({"name": "", "salary": 0}), "Checking complex false case")
+        self.assertTrue(complex_example.check({"name": "", "salary": 10.5}), "Checking complex true case")
         self.assertTrue(complex_example.check({"name": "", "salary": 1000}), "Checking complex true case")
         self.assertFalse(complex_example.check({"name": "", "salary": 0}), "Checking complex false case")
-        self.assertTrue(complex_example.check({"name":"bob", "salary":0}), "Checking complex true case")
-        self.assertTrue(complex_example.check({"name":"jim", "salary":0}), "Checking complex true case")
-        self.assertTrue(complex_example.check({"name":"something with a space", "salary":0}), "Checking complex space true case")
+        self.assertTrue(complex_example.check({"name": "bob", "salary": 0}), "Checking complex true case")
+        self.assertTrue(complex_example.check({"name": "jim", "salary": 0}), "Checking complex true case")
+        self.assertTrue(complex_example.check({"name": "something with a space", "salary": 0}),
+                        "Checking complex space true case")
 
     def test__set_up_function(self):
         # Testing the setup function
@@ -67,12 +70,11 @@ class TestStringBooleanExpression(TestCase):
         self.assertTrue(function("a", "a"))
         self.assertFalse(function("a", "b"))
 
-
     def test__parse_input(self):
         # Testing the parse function
         input_string = "S$var_one==var_two||S$var_one==TESTING"
 
-        output_parsed_string, variables = StringBooleanExpression._parse_input(input_string, {"TESTING":"an example"})
+        output_parsed_string, variables = StringBooleanExpression._parse_input(input_string, {"TESTING": "an example"})
 
         self.assertTrue("var_one" in variables)
         self.assertTrue("TESTING" not in variables)
@@ -84,7 +86,7 @@ class TestStringBooleanExpression(TestCase):
         input_string = "S$var_one==var_two||S$var_one==TESTING"
 
         output_parsed_string, variables = StringBooleanExpression._handle_comparison(input_string, "==", "GARBAGE",
-                                                                                     {"TESTING":"an example"})
+                                                                                     {"TESTING": "an example"})
 
         self.assertTrue("var_one" in variables)
         self.assertTrue("var_two" not in variables)
@@ -92,7 +94,6 @@ class TestStringBooleanExpression(TestCase):
         self.assertTrue("GARBAGE" in output_parsed_string)
         self.assertTrue("an example" in output_parsed_string)
         self.assertTrue("TESTING" not in output_parsed_string)
-
 
     def test__wrap_string(self):
         wrap = "wrapping"
